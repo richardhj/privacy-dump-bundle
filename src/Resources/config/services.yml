@@ -1,0 +1,25 @@
+services:
+  _defaults:
+    autoconfigure: true
+
+  privacy_dump.config_options:
+    class: Richardhj\PrivacyDumpBundle\Config\Config
+    arguments: [[]]
+
+  privacy_dump.config_databases:
+    class: Richardhj\PrivacyDumpBundle\Config\Config
+    arguments: [[]]
+
+  privacy_dump.dumper.sql:
+    class: Richardhj\PrivacyDump\Dumper\SqlDumper
+    arguments: ['@privacy_dump.converter_factory']
+
+  privacy_dump.converter_factory:
+    class: Richardhj\PrivacyDump\Converter\ConverterFactory
+    arguments: ['@privacy_dump.faker']
+
+  privacy_dump.faker:
+    class: Richardhj\PrivacyDump\Faker\FakerService
+
+  Richardhj\PrivacyDumpBundle\Command\DumpCommand:
+    arguments: ['@privacy_dump.dumper.sql', '@privacy_dump.config_databases', '@privacy_dump.config_options']
