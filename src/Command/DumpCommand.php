@@ -31,12 +31,14 @@ class DumpCommand extends Command
     private $dumper;
     private $databases;
     private $options;
+    private $projectDir;
 
-    public function __construct(DumperInterface $dumper, Config $databases, Config $options)
+    public function __construct(DumperInterface $dumper, Config $databases, Config $options, string $projectDir)
     {
         $this->dumper    = $dumper;
         $this->databases = $databases;
         $this->options   = $options;
+        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -74,7 +76,7 @@ class DumpCommand extends Command
             )
         );
 
-        $this->dumper->dump($config, TL_ROOT.'/'.$filename.'.sql');
+        $this->dumper->dump($config, $this->projectDir.'/'.$filename.'.sql');
 
         return 0;
     }
